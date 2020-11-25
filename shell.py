@@ -19,7 +19,7 @@ def shell(ip,port):
         soc.bind((ip, port))
         #Escucha las conexiones entrantes
         soc.listen(2)
-        #print(Style.BRIGHT+Fore.RED+banner+Fore.RESET)
+
         
         while True:
             done=False
