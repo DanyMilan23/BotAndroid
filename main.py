@@ -46,9 +46,8 @@ else:
     print(Fore.RED+"Not a valid Port"+Fore.RESET)
     sys.exit()
 
-
 if args.shell:
-    shell(ip,port)
+    shell(ip, port)
 
 if args.build:
-    build(direc, port, ip)
+    build(direc, port, ip, args)
