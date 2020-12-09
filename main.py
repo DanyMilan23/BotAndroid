@@ -47,7 +47,7 @@ else:
     sys.exit()
 
 if args.shell:
-    shell(ip, port)
+    shell2(ip, port)
 
 if args.build:
     build(direc, port, ip, args)

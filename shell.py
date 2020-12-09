@@ -10,7 +10,7 @@ def animate(message):
         print("\r"+Style.BRIGHT+Fore.GREEN+message+c+Fore.RESET, end="")
         time.sleep(0.1)
 
-def shell(ip, port):
+def shell2(ip, port):
     #se instancia la conexion
     soc = socket.socket() 
     # Crea a TCP/IP socket
@@ -23,14 +23,18 @@ def shell(ip, port):
     
     while True:
         done=False
+        print("Esperando conexion")
         # Creamos un subproceso usando hilos
-        t = threading.Thread(target=animate,args=(" Waiting for Connections ",))
+        #t = threading.Thread(target=animate,args=(" Waiting for Connections ",))
         # Una vez que se termina el subproceso inicia 
-        t.start()
+        #t.start()
         # Acepta la conexion y recupera una variable de conexion y la direccion
         conn, addr = soc.accept()
+        print("socket conexion y direccion")
+        print(conn)
+        print(addr)
         done = True
-        t.join()
+        #t.join()
         clear()
         #print(Fore.YELLOW+"Got connection from "+Fore.RED+"".join(str(addr))+Fore.RESET)
         #print(" ")
