@@ -117,7 +117,7 @@ def get_target(cmd):
         target = int(target)
         conn = all_connections[target]
         print("You are now connected to :" + str(all_address[target][0]))
-        print(str(all_address[target][0]) + ">", end="")
+        #print(str(all_address[target][0]) + ">", end="")
         return conn
         # 192.168.0.4> dir
 
@@ -199,5 +199,5 @@ def create_jobs():
     queue.join()
 
 
-create_workers()
-create_jobs()
+#create_workers()
+#create_jobs()

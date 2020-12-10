@@ -1,6 +1,7 @@
 import socket
 from utils import *
 from shell import *
+from server import *
 from build import *
 import select
 import platform
@@ -47,7 +48,10 @@ else:
     sys.exit()
 
 if args.shell:
-    shell2(ip, port)
-
+    print("shell entro")
+    create_workers()
+    create_jobs()
+    #shell2(ip, port)
+    #server()
 if args.build:
     build(direc, port, ip, args)
