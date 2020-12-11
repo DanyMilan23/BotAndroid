@@ -60,7 +60,7 @@ def shell2(ip, port):
             elif(msg.strip() == "help"):
                 help()
             else:
-                #print(msg)
+                print(msg)
             #message_to_send = input(Style.BRIGHT+Fore.CYAN+"Interpreter:/> "+Fore.RESET)+"\n"
             #conn.send(message_to_send.encode("UTF-8"))
             #if message_to_send.strip() == "exit":

